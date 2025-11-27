@@ -48,7 +48,7 @@
     "channelId": "",
     "icon": "🔫",
     "color": "#2E66F2",
-    "logHistory": false,
+    "logHistory": true,
     "embed": true
   },
   "resource": {
@@ -83,7 +83,7 @@
     "channelId": "",
     "icon": "📸",
     "color": "#A1A1A1",
-    "logHistory": false,
+    "logHistory": true,
     "embed": true
   },
   "txAdmin": {

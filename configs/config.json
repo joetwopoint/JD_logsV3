@@ -22,15 +22,15 @@
     "playerArmor": true,
     "playerPing": true,
 
-    "ip": true,
-    "steamUrl": true,
+    "ip": false,
+    "steamUrl": false,
     "discordId": {
         "enabled": true,
-        "spoiler": true
+        "spoiler": false
     },
     "steamId": {
-        "enabled": true,
-        "spoiler": true
+        "enabled": false,
+        "spoiler": false
     },
     "license": {
         "enabled": true,

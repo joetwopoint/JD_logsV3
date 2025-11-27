@@ -83,42 +83,6 @@ AddEventHandler('chatMessage', function(source, name, msg)
 	end
 end)
 
-
--- BigDaddy-Chat integration: log messages sent through BigDaddy chat
--- This listens directly to the internal _chat:messageEntered event used by BigDaddy-Chat's client.
--- It only runs when the BigDaddy-Chat resource is started, to avoid double-logging on servers
--- that use the default chat resource.
-AddEventHandler('_chat:messageEntered', function(author, color, message, mode)
-    -- only handle if BigDaddy-Chat is running
-    if GetResourceState and GetResourceState('BigDaddy-Chat') ~= 'started' then
-        return
-    end
-
-    local src = source
-
-    if not message or message == '' then
-        return
-    end
-
-    -- ignore commands, keep behavior consistent with the normal chatMessage handler
-    if message:sub(1, 1) == '/' then
-        return
-    end
-
-    local name = GetPlayerName(src) or author or ('ID ' .. tostring(src))
-
-    local logMsg = lang and lang.chat and lang.chat.msg or "**{name}:** `{msg}`"
-    logMsg = logMsg:gsub("{name}", name)
-    logMsg = logMsg:gsub("{msg}", message)
-
-    ServerFunc.CreateLog({
-        EmbedMessage = logMsg,
-        player_id = src,
-        channel = 'chat'
-    })
-end)
-
-
 AddEventHandler('onResourceStart', function (resourceName)
 	Wait(100)
 	if Config ~= nil then
