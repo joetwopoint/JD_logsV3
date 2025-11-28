@@ -78,30 +78,18 @@ end)
 
 AddEventHandler('chatMessage', function(source, name, msg)
 	local src = source
-	if msg:sub(1, 1) ~= '/' then
-		ServerFunc.CreateLog({EmbedMessage = lang.chat.msg:gsub("{name}", GetPlayerName(src)):gsub("{msg}", msg), player_id = src, channel = 'chat'})
-	end
+	ServerFunc.CreateLog({EmbedMessage = lang.chat.msg:gsub("{name}", GetPlayerName(src)):gsub("{msg}", msg), player_id = src, channel = 'chat'})
 end)
 
 
--- BigDaddy-Chat integration: log messages sent through BigDaddy chat
--- This listens directly to the internal _chat:messageEntered event used by BigDaddy-Chat's client.
--- It only runs when the BigDaddy-Chat resource is started, to avoid double-logging on servers
--- that use the default chat resource.
-AddEventHandler('_chat:messageEntered', function(author, color, message, mode)
-    -- only handle if BigDaddy-Chat is running
-    if GetResourceState and GetResourceState('BigDaddy-Chat') ~= 'started' then
-        return
-    end
 
+-- BigDaddy-Chat integration: log messages sent through BigDaddy chat
+-- BigDaddy-Chat's client sends messages via the internal '_chat:messageEntered' event.
+-- We hook that event directly here and pass everything (including /commands) into JD_logs.
+AddEventHandler('_chat:messageEntered', function(author, color, message, mode)
     local src = source
 
     if not message or message == '' then
-        return
-    end
-
-    -- ignore commands, keep behavior consistent with the normal chatMessage handler
-    if message:sub(1, 1) == '/' then
         return
     end
 
